@@ -4,9 +4,9 @@ import { db } from "@/database.ts";
 const server = fastify();
 
 server.get("/", async () => {
-  const tables = await db("sqlite_schema");
+  const transactions = await db("transactions").select("*");
 
-  return tables;
+  return transactions;
 });
 
 server.listen(
