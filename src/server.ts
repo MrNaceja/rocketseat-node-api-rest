@@ -1,11 +1,12 @@
 import fastify from "fastify";
+import { db } from "@/database.ts";
 
 const server = fastify();
 
 server.get("/", async () => {
-  return {
-    message: "Hello World",
-  };
+  const tables = await db("sqlite_schema");
+
+  return tables;
 });
 
 server.listen(
