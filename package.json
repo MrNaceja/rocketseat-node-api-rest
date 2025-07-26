@@ -5,7 +5,7 @@
   "main": "src/server.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx --watch src/server.ts"
+    "dev": "node --env-file=.env --import tsx --watch src/server.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,8 @@
   "dependencies": {
     "fastify": "^5.4.0",
     "knex": "^3.1.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "zod": "^4.0.10"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",

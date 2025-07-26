@@ -1,5 +1,5 @@
 import fastify from "fastify";
-import { db } from "@/database.ts";
+import { db } from "@/config/db.ts";
 
 const server = fastify();
 
