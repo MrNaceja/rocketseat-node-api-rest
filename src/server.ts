@@ -1,13 +1,25 @@
+import fastifyCookie from "@fastify/cookie";
 import fastify from "fastify";
-import { db } from "@/config/db.ts";
+import {
+  serializerCompiler,
+  validatorCompiler,
+  type ZodTypeProvider,
+} from "fastify-type-provider-zod";
+import { logRoutesAccessMiddleware } from "@/middlewares/log-routes-access.ts";
+import { transactionsRoutes } from "@/routes/transactions/index.ts";
 
-const server = fastify();
+const server = fastify().withTypeProvider<ZodTypeProvider>();
 
-server.get("/", async () => {
-  const transactions = await db("transactions").select("*");
+server.setSerializerCompiler(serializerCompiler);
+server.setValidatorCompiler(validatorCompiler);
 
-  return transactions;
+server.register(fastifyCookie, {
+  secret: "_5up3r_53cr3t",
 });
+
+server.addHook("preHandler", logRoutesAccessMiddleware);
+
+server.register(transactionsRoutes);
 
 server.listen(
   {
