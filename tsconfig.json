@@ -25,5 +25,5 @@
     },
     "strictNullChecks": true
   },
-  "include": ["./src", "./@types"]
+  "include": ["./src", "./@types", "./tests", "./knexfile.ts"]
 }
