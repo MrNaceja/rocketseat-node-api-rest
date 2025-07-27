@@ -1,7 +1,8 @@
 import { StatusCodes } from "http-status-codes";
 import request from "supertest";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import app from "@/app.ts";
+import { db } from "@/config/db.ts";
 
 describe("Transactions", () => {
   beforeAll(async () => {
@@ -9,6 +10,11 @@ describe("Transactions", () => {
   });
   afterAll(async () => {
     await app.close();
+  });
+
+  beforeEach(async () => {
+    await db.migrate.rollback();
+    await db.migrate.latest();
   });
 
   it("should create a new transaction", async () => {
