@@ -90,16 +90,28 @@ describe("Transactions", () => {
   });
 
   it("should calculate and return transactions summary", async () => {
+    const creditTransactionAmount = 200;
+    const debitTransactionAmount = 50;
+
     const createTransactionResponse = await request(app.server)
       .post("/transactions")
       .send({
         title: "New Transaction Test",
-        amount: 200,
+        amount: creditTransactionAmount,
         type: "credit",
       });
 
     const cookies = createTransactionResponse.get("Set-Cookie");
     expect(cookies).toEqual([expect.stringContaining("sessionId")]);
+
+    await request(app.server)
+      .post("/transactions")
+      .set("Cookie", cookies!)
+      .send({
+        title: "Another Transaction Test",
+        amount: debitTransactionAmount,
+        type: "debit",
+      });
 
     const transactionsSummaryResponse = await request(app.server)
       .get("/transactions/summary")
@@ -107,7 +119,7 @@ describe("Transactions", () => {
       .expect(StatusCodes.OK);
 
     expect(transactionsSummaryResponse.body).toEqual({
-      summary: expect.any(Number),
+      summary: creditTransactionAmount - debitTransactionAmount,
     });
   });
 });
