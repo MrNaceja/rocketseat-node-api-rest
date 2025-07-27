@@ -11,6 +11,7 @@
     "dev": "node --env-file=.env --import tsx --watch src/server.ts",
     "preview": "npm run build && node --env-file=.env build/server.cjs",
     "test": "vitest",
+    "knex": "node --env-file=.env --import tsx node_modules/knex/bin/cli.js",
     "build": "tsup ./src --out-dir build"
   },
   "keywords": [],

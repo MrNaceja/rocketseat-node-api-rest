@@ -1,6 +1,5 @@
 node_modules
-database/raw.db
-database/test.db
+database/*.db
 .env
 build
 .vscode
