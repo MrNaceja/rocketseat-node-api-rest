@@ -88,4 +88,26 @@ describe("Transactions", () => {
       }),
     });
   });
+
+  it("should calculate and return transactions summary", async () => {
+    const createTransactionResponse = await request(app.server)
+      .post("/transactions")
+      .send({
+        title: "New Transaction Test",
+        amount: 200,
+        type: "credit",
+      });
+
+    const cookies = createTransactionResponse.get("Set-Cookie");
+    expect(cookies).toEqual([expect.stringContaining("sessionId")]);
+
+    const transactionsSummaryResponse = await request(app.server)
+      .get("/transactions/summary")
+      .set("Cookie", cookies!)
+      .expect(StatusCodes.OK);
+
+    expect(transactionsSummaryResponse.body).toEqual({
+      summary: expect.any(Number),
+    });
+  });
 });
