@@ -6,6 +6,9 @@
       "suspicious": {
         "noConsole": "off",
         "useAwait": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
       }
     }
   }
