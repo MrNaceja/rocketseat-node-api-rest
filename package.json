@@ -11,8 +11,10 @@
     "dev": "node --env-file=.env --import tsx --watch src/server.ts",
     "preview": "npm run build && node --env-file=.env build/server.cjs",
     "test": "vitest",
-    "knex": "node --env-file=.env --import tsx node_modules/knex/bin/cli.js",
-    "build": "tsup ./src --out-dir build"
+    "knex:dev": "node --env-file=.env --import tsx node_modules/knex/bin/cli.js",
+    "knex:deploy": "node --import tsx node_modules/knex/bin/cli.js",
+    "build": "tsup ./src --out-dir build",
+    "deploy": "npm install && npm run knex:deploy -- migrate:latest && npm run build"
   },
   "keywords": [],
   "author": "",
