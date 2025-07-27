@@ -2,6 +2,8 @@ import z4 from "zod/v4";
 
 const envSchema = z4.object({
   DATABASE_URL: z4.string(),
+  PORT: z4.coerce.number().default(3333),
+  DATABASE_CLIENT: z4.enum(["pg", "sqlite"]),
   NODE_ENV: z4
     .enum(["development", "test", "production"])
     .default("development"),
