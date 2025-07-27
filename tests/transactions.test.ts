@@ -55,4 +55,37 @@ describe("Transactions", () => {
       ],
     });
   });
+
+  it("should select one transaction by id", async () => {
+    const createTransactionResponse = await request(app.server)
+      .post("/transactions")
+      .send({
+        title: "New Transaction Test",
+        amount: 200,
+        type: "credit",
+      });
+
+    const cookies = createTransactionResponse.get("Set-Cookie");
+    expect(cookies).toEqual([expect.stringContaining("sessionId")]);
+
+    expect(createTransactionResponse.body).toEqual({
+      transactionCreated: {
+        id: expect.any(String),
+      },
+    });
+
+    const { transactionCreated } = createTransactionResponse.body;
+
+    const selectTransactionResponse = await request(app.server)
+      .get(`/transactions/${transactionCreated.id}`)
+      .set("Cookie", cookies!)
+      .expect(StatusCodes.OK);
+
+    expect(selectTransactionResponse.body).toEqual({
+      transaction: expect.objectContaining({
+        title: "New Transaction Test",
+        amount: 200,
+      }),
+    });
+  });
 });
