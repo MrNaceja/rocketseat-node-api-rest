@@ -1,3 +1,7 @@
 node_modules
-database/raw.sqlite
+database/raw.db
+database/test.db
 .env
+build
+.vscode
+.github
